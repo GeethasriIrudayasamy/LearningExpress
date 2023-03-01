@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const adminRoutes = require("./routes/admin-routes");
 const shopRoutes = require("./routes/shop-routes");
 const path = require("path");
-const rootDir = require("./utils/path");
+const errorHandler = require("./controllers/shop");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,8 +14,6 @@ app.use(shopRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(rootDir, "views", "404.html"));
-});
+app.use(errorHandler.error404);
 
 app.listen(4000);
